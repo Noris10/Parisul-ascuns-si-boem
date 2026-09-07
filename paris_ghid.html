@@ -245,12 +245,7 @@
   }
   .map-legend .dot{ width:9px; height:9px; border-radius:50%; background:var(--gold); border:1px solid var(--gold-bright); display:inline-block; }
 
-  .spot-dot{ transition:background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease; cursor:pointer; }
-  .leaflet-marker-icon:hover .spot-dot{
-    background:#0D0D0D !important;
-    border-color:#F6E4C4 !important;
-    box-shadow:0 0 0 2px #000 !important;
-  }
+  .spot-dot{ cursor:pointer; }
 
   /* ---------- RESTAURANT TIP ---------- */
   .eats{
@@ -448,24 +443,36 @@
 
   <div class="tower-wrap">
     <svg viewBox="0 0 200 320" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#8C2F27" stroke-width="1.4">
-      <line x1="100" y1="6" x2="100" y2="30"/>
-      <path d="M100 30 L60 300 M100 30 L140 300"/>
-      <path d="M78 150 L122 150"/>
-      <path d="M70 180 L130 180"/>
-      <path d="M64 220 L136 220"/>
-      <path d="M60 300 L140 300 L150 320 L50 320 Z"/>
-      <path d="M100 30 L86 90 L114 90 Z"/>
-      <path d="M86 90 L60 220 M114 90 L140 220"/>
-      <path d="M50 320 L60 300 M150 320 L140 300"/>
-      <line x1="45" y1="320" x2="155" y2="320"/>
+      <!-- antenna -->
+      <line x1="100" y1="4" x2="100" y2="22"/>
+      <!-- summit to second platform -->
+      <path d="M100 22 L94 96 M100 22 L106 96"/>
+      <line x1="90" y1="96" x2="110" y2="96"/>
+      <path d="M91 100 L89 108 M109 100 L111 108"/>
+      <!-- second platform to first platform, curved lattice legs -->
+      <path d="M89 108 C85 128 80 150 74 168 M111 108 C115 128 120 150 126 168"/>
+      <line x1="72" y1="168" x2="128" y2="168"/>
+      <path d="M74 173 L70 182 M126 173 L130 182"/>
+      <!-- first platform to ground, splayed curved legs -->
+      <path d="M70 182 C60 214 48 250 34 300 M130 182 C140 214 152 250 166 300"/>
+      <!-- base arch -->
+      <path d="M34 300 Q100 232 166 300"/>
+      <!-- lattice cross-bracing between the legs -->
+      <path d="M76 200 L124 200 M80 220 L120 220 M84 240 L116 240 M88 260 L112 260"/>
+      <path d="M62 210 L100 240 M138 210 L100 240 M52 250 L100 280 M148 250 L100 280"/>
+      <!-- upper section cross-bracing -->
+      <path d="M79 130 L121 130 M82 150 L118 150"/>
+      <path d="M74 120 L100 140 M126 120 L100 140"/>
+      <!-- ground line -->
+      <line x1="18" y1="300" x2="182" y2="300"/>
     </svg>
   </div>
-
-  <div class="scroll-cue">
-    <span class="line"></span>
-    <span class="label" style="font-size:0.62rem;">derulează</span>
-  </div>
 </header>
+
+<!-- MULTILINGUAL NOTE — placed between the tower and the intro heading -->
+<div style="display:flex; justify-content:center; padding:7vh 6vw;">
+  <p style="max-width:34ch; text-align:center; font-family:'Source Serif 4', serif; font-style:italic; font-size:1.05rem; line-height:1.6; color:var(--gold-bright); margin:0;">Detaliile din acest site sunt atât în limba română, cât și în limba franceză sau engleză. Pentru a distinge mai bine locurile identificate cu buline de diferite culori, vă invităm să măriți / să micșorați harta (+/-). Amusez-vous bien :)</p>
+</div>
 
 <!-- INTRO -->
 <section class="intro">
@@ -492,7 +499,7 @@
   <div class="map-head">
     <div class="kicker label">unde anume</div>
     <h2 class="display">Totul, pe hartă</h2>
-    <p>Pentru a descoperi locuri și cafenele ascunse în Paris, treci cu mouse-ul peste unul din punctele negre sau albe pe harta Parisului și vei afla numele și arondismentul unde se găsește.</p>
+    <p>Pentru a descoperi locuri și cafenele ascunse în Paris, treci cu mouse-ul peste unul din punctele de pe hartă ca să vezi numele și arondismentul — apasă pe el pentru a deschide pagina cu detalii despre locul respectiv.</p>
   </div>
   <div id="paris-map"></div>
   <div class="map-legend">
@@ -534,7 +541,7 @@
   <div class="spot">
     <div class="roundel"><span class="arr">20</span><span class="arr-l">ARR.</span></div>
     <div class="spot-body">
-      <h3 class="display">Micul „sat” din Charonne</h3>
+      <h3 class="display"><a href="https://www.sortiraparis.com/en/what-to-visit-in-paris/walks/articles/174333-walk-in-the-charonne-neighborhood" target="_blank" rel="noopener" class="spot-title-link">Micul „sat” din Charonne</a></h3>
       <div class="quartier label">Rue Saint-Blaise, lângă Père Lachaise</div>
       <p>
         La zece minute de mormântul lui Jim Morrison se ascunde o stradă cu aer de sat medieval,
@@ -543,7 +550,7 @@
       <div class="tip">Sfat: combină vizita cu o plimbare prin Père Lachaise, apoi ieși pe partea estică.</div>
       <div class="eats">
         <div class="eats-label label">unde mănânci aproape</div>
-        <div class="eats-name">Ploc</div>
+        <div class="eats-name"><a href="https://guide.michelin.com/us/en/ile-de-france/paris/restaurant/ploc" target="_blank" rel="noopener" class="spot-title-link">Ploc</a></div>
         <div class="eats-detail">17 Rue Saint-Blaise — bistro cu vin natural, pe aceeași stradă pietonală.</div>
       </div>
     </div>
@@ -552,7 +559,7 @@
   <div class="spot">
     <div class="roundel"><span class="arr">13</span><span class="arr-l">ARR.</span></div>
     <div class="spot-body">
-      <h3 class="display">Butte-aux-Cailles</h3>
+      <h3 class="display"><a href="https://www.sortiraparis.com/en/what-to-visit-in-paris/walks/articles/171171-a-stroll-through-the-butte-aux-cailles-district-of-paris" target="_blank" rel="noopener" class="spot-title-link">Butte-aux-Cailles</a></h3>
       <div class="quartier label">sudul celui de-al 13-lea arondisment</div>
       <p>
         Un cartier de străduțe înguste, case cu grădină și fațade acoperite de graffiti bine
@@ -562,7 +569,7 @@
       <div class="tip">Sfat: termină seara la o piscină publică art-deco alimentată dintr-un izvor subteran.</div>
       <div class="eats">
         <div class="eats-label label">unde mănânci aproape</div>
-        <div class="eats-name">Chez Gladines</div>
+        <div class="eats-name"><a href="https://www.sortiraparis.com/en/lieux/365-chez-gladines" target="_blank" rel="noopener" class="spot-title-link">Chez Gladines</a></div>
         <div class="eats-detail">30 Rue des Cinq Diamants — bucătărie bască, porții generoase, atmosferă de cartier.</div>
       </div>
     </div>
@@ -571,7 +578,7 @@
   <div class="spot">
     <div class="roundel"><span class="arr">05</span><span class="arr-l">ARR.</span></div>
     <div class="spot-body">
-      <h3 class="display">Grădina din spatele Arenelor de Lutèce</h3>
+      <h3 class="display"><a href="https://www.sortiraparis.com/en/lieux/66178-lutetia-arena" target="_blank" rel="noopener" class="spot-title-link">Grădina din spatele Arenelor de Lutèce</a></h3>
       <div class="quartier label">Cartierul Latin</div>
       <p>
         Rămășițele unui amfiteatru roman, ascunse între blocuri de apartamente. Localnicii joacă
@@ -581,7 +588,7 @@
       <div class="tip">Sfat: intrarea discretă e pe Rue de Navarre, printr-un gang ce nu pare să ducă nicăieri.</div>
       <div class="eats">
         <div class="eats-label label">unde mănânci aproape</div>
-        <div class="eats-name">Le Vieux Bistrot</div>
+        <div class="eats-name"><a href="https://www.viamichelin.com/maps/restaurants/poi/paris-75005-0f2cc991" target="_blank" rel="noopener" class="spot-title-link">Le Vieux Bistrot</a></div>
         <div class="eats-detail">54 Rue Mouffetard — bistro clasic, pe celebra stradă-piață din apropiere.</div>
       </div>
     </div>
@@ -590,7 +597,7 @@
   <div class="spot">
     <div class="roundel"><span class="arr">19</span><span class="arr-l">ARR.</span></div>
     <div class="spot-body">
-      <h3 class="display">Parcul des Buttes-Chaumont</h3>
+      <h3 class="display"><a href="https://www.sortiraparis.com/en/what-to-visit-in-paris/history-heritage/articles/173670-parc-des-buttes-chaumont-paris-largest-charming-park-with-mountain-scenery" target="_blank" rel="noopener" class="spot-title-link">Parcul des Buttes-Chaumont</a></h3>
       <div class="quartier label">nord-estul Parisului</div>
       <p>
         Un parc construit pe o fostă carieră de piatră, cu stânci artificiale, o cascadă și un
@@ -600,7 +607,7 @@
       <div class="tip">Sfat: urcă la templu chiar înainte de apus, pentru priveliștea peste acoperișurile Parisului.</div>
       <div class="eats">
         <div class="eats-label label">unde mănânci aproape</div>
-        <div class="eats-name">Rosa Bonheur Buttes Chaumont</div>
+        <div class="eats-name"><a href="https://www.sortiraparis.com/en/where-to-eat-in-paris/bars-cafes/articles/219885-rosa-bonheur-des-buttes-chaumont-the-festive-guinguette-in-the-heart-of-the-19th-arrondissement-park" target="_blank" rel="noopener" class="spot-title-link">Rosa Bonheur Buttes Chaumont</a></div>
         <div class="eats-detail">2 Av. de la Cascade — chiar în interiorul parcului, terase, pizza și tapas.</div>
       </div>
     </div>
@@ -609,7 +616,7 @@
   <div class="spot">
     <div class="roundel"><span class="arr">04</span><span class="arr-l">ARR.</span></div>
     <div class="spot-body">
-      <h3 class="display">Rue des Barres</h3>
+      <h3 class="display"><a href="https://www.parisinsidersguide.com/places-in-paris-rue-des-barres.html" target="_blank" rel="noopener" class="spot-title-link">Rue des Barres</a></h3>
       <div class="quartier label">Le Marais, în spatele bisericii Saint-Gervais</div>
       <p>
         O străduță medievală, pietruită și aproape neschimbată, cu case pe jumătate din lemn —
@@ -618,7 +625,7 @@
       <div class="tip">Sfat: vino la ora prânzului pentru lumina care cade direct pe fațadele istorice.</div>
       <div class="eats">
         <div class="eats-label label">unde mănânci aproape</div>
-        <div class="eats-name">L'Ébouillanté</div>
+        <div class="eats-name"><a href="https://www.evous.fr/paris/le-marais/Bars-et-Cafes-dans-le-Marais-Paris/L-Ebouillante,1124935.html" target="_blank" rel="noopener" class="spot-title-link">L'Ébouillanté</a></div>
         <div class="eats-detail">6 Rue des Barres — cafenea-restaurant chiar pe stradă, faimoasă pentru „bricks".</div>
       </div>
     </div>
@@ -636,7 +643,7 @@
   <div class="spot">
     <div class="roundel boheme"><span class="arr">18</span><span class="arr-l">ARR.</span></div>
     <div class="spot-body">
-      <h3 class="display">Le Bateau-Lavoir</h3>
+      <h3 class="display"><a href="https://www.sortiraparis.com/en/what-to-visit-in-paris/history-heritage/articles/332833-histoire-bateau-lavoir-cite-artistes-montmartre-paris-18" target="_blank" rel="noopener" class="spot-title-link">Le Bateau-Lavoir</a></h3>
       <div class="quartier label">Place Émile-Goudeau, Montmartre</div>
       <p>
         O clădire modestă de lemn unde Picasso a pictat „Domnișoarele din Avignon” și unde s-a
@@ -647,12 +654,12 @@
       <div class="pair">
         <div class="eats">
           <div class="eats-label label">o cafenea</div>
-          <div class="eats-name">La Maison Rose</div>
+          <div class="eats-name"><a href="https://lamaisonrose-montmartre.com/en/" target="_blank" rel="noopener" class="spot-title-link">La Maison Rose</a></div>
           <div class="eats-detail">2 Rue de l'Abreuvoir — fațada roz pictată chiar de Utrillo, la două pași de Bateau-Lavoir.</div>
         </div>
         <div class="eats">
           <div class="eats-label label">un bar</div>
-          <div class="eats-name">La Fourmi</div>
+          <div class="eats-name"><a href="https://fourmicafe.fr/" target="_blank" rel="noopener" class="spot-title-link">La Fourmi</a></div>
           <div class="eats-detail">74 Rue des Martyrs — bar-cafenea istoric, loc de întâlnire al boemei montmartroise de decenii.</div>
         </div>
       </div>
@@ -662,7 +669,7 @@
   <div class="spot">
     <div class="roundel boheme"><span class="arr">15</span><span class="arr-l">ARR.</span></div>
     <div class="spot-body">
-      <h3 class="display">La Ruche</h3>
+      <h3 class="display"><a href="https://www.sortiraparis.com/en/what-to-visit-in-paris/exhibit-museum/articles/342221-unique-experience-free-access-to-the-iconic-artist-s-hive-in-paris" target="_blank" rel="noopener" class="spot-title-link">La Ruche</a></h3>
       <div class="quartier label">Passage de Dantzig</div>
       <p>
         O rotondă ciudată, ridicată din rămășițele Expoziției Universale din 1900, transformată
@@ -674,12 +681,12 @@
       <div class="pair">
         <div class="eats">
           <div class="eats-label label">o cafenea</div>
-          <div class="eats-name">Le Dantzig</div>
+          <div class="eats-name"><a href="https://fr.wikipedia.org/wiki/Rue_de_Dantzig" target="_blank" rel="noopener" class="spot-title-link">Le Dantzig</a></div>
           <div class="eats-detail">1 Passage de Dantzig — chiar la intrarea în La Ruche, café-bar de cartier, deopotrivă bun dimineața și seara.</div>
         </div>
         <div class="eats">
           <div class="eats-label label">un bar</div>
-          <div class="eats-name">Le Dantzig, seara</div>
+          <div class="eats-name"><a href="https://fr.wikipedia.org/wiki/Rue_de_Dantzig" target="_blank" rel="noopener" class="spot-title-link">Le Dantzig, seara</a></div>
           <div class="eats-detail">Același loc se transformă spre seară în bar de cartier — terasa rămâne animată până târziu.</div>
         </div>
       </div>
@@ -689,7 +696,7 @@
   <div class="spot">
     <div class="roundel boheme"><span class="arr">13</span><span class="arr-l">ARR.</span></div>
     <div class="spot-body">
-      <h3 class="display">Les Frigos</h3>
+      <h3 class="display"><a href="https://www.untappedcities.com/les-frigos-an-artist-squat-in-paris-13th-arrondissement/" target="_blank" rel="noopener" class="spot-title-link">Les Frigos</a></h3>
       <div class="quartier label">19 Rue des Frigos</div>
       <p>
         Un fost depozit frigorific din 1921, care aproviziona halele Parisului cu produse
@@ -700,12 +707,12 @@
       <div class="pair">
         <div class="eats">
           <div class="eats-label label">o cafenea</div>
-          <div class="eats-name">La Maison des Frigos</div>
+          <div class="eats-name"><a href="https://www.parissurunfil.com/maison-des-frigos/" target="_blank" rel="noopener" class="spot-title-link">La Maison des Frigos</a></div>
           <div class="eats-detail">19 Rue des Frigos — cantina chiar din interiorul clădirii, printre expoziții și artiști în trecere.</div>
         </div>
         <div class="eats">
           <div class="eats-label label">un bar</div>
-          <div class="eats-name">Petit Bain</div>
+          <div class="eats-name"><a href="http://www.petitbain.org/" target="_blank" rel="noopener" class="spot-title-link">Petit Bain</a></div>
           <div class="eats-detail">7 Port de la Gare — bar-club pe o pontonă plutitoare pe Sena, la câțiva pași de Frigos.</div>
         </div>
       </div>
@@ -715,7 +722,7 @@
   <div class="spot">
     <div class="roundel boheme"><span class="arr">14</span><span class="arr-l">ARR.</span></div>
     <div class="spot-body">
-      <h3 class="display">Cité Fleurie</h3>
+      <h3 class="display"><a href="https://www.pariszigzag.fr/sortir-paris/balade-paris/un-village-dartistes-bucolique-et-verdoyant-au-coeur-de-paris" target="_blank" rel="noopener" class="spot-title-link">Cité Fleurie</a></h3>
       <div class="quartier label">65 Boulevard Arago</div>
       <p>
         Ateliere joase, acoperite de iederă și glicine, construite tot din materiale recuperate
@@ -726,12 +733,12 @@
       <div class="pair">
         <div class="eats">
           <div class="eats-label label">o cafenea</div>
-          <div class="eats-name">Café Premier</div>
+          <div class="eats-name"><a href="https://www.tripadvisor.fr/Restaurant_Review-g187147-d7368440-Reviews-or45-Cafe_Premier_Arago-Paris_Ile_de_France.html" target="_blank" rel="noopener" class="spot-title-link">Café Premier</a></div>
           <div class="eats-detail">17 Boulevard Arago — terasă chiar pe bulevard, cu vedere spre zidurile Cité Fleurie.</div>
         </div>
         <div class="eats">
           <div class="eats-label label">un bar</div>
-          <div class="eats-name">Café Paulette</div>
+          <div class="eats-name"><a href="https://www.lecafepaulette.com/" target="_blank" rel="noopener" class="spot-title-link">Café Paulette</a></div>
           <div class="eats-detail">48 Boulevard Arago — bar de cartier discret, bun pentru un pahar după plimbare.</div>
         </div>
       </div>
@@ -741,7 +748,7 @@
   <div class="spot">
     <div class="roundel boheme"><span class="arr">20</span><span class="arr-l">ARR.</span></div>
     <div class="spot-body">
-      <h3 class="display">Rue Denoyez</h3>
+      <h3 class="display"><a href="https://www.visitparisregion.com/en/rue-denoyez" target="_blank" rel="noopener" class="spot-title-link">Rue Denoyez</a></h3>
       <div class="quartier label">Belleville</div>
       <p>
         O străduță întreagă lăsată liberă artiștilor de street art, repictată constant, unde
@@ -752,12 +759,12 @@
       <div class="pair">
         <div class="eats">
           <div class="eats-label label">o cafenea</div>
-          <div class="eats-name">Café des Délices</div>
+          <div class="eats-name"><a href="https://www.sortiraparis.com/en/where-to-eat-in-paris/restaurant/articles/324237-cafe-des-delices-the-affordable-belleville-restaurant-that-lives-up-to-its-name" target="_blank" rel="noopener" class="spot-title-link">Café des Délices</a></div>
           <div class="eats-detail">4 Rue Lemon — chiar la colțul cu Rue Denoyez, terasă mică, departe de mașini.</div>
         </div>
         <div class="eats">
           <div class="eats-label label">un bar</div>
-          <div class="eats-name">Aux Folies</div>
+          <div class="eats-name"><a href="https://www.sortiraparis.com/hotel-restaurant/bar-cafes/articles/156203-aux-folies-le-bar-incontournable-de-belleville" target="_blank" rel="noopener" class="spot-title-link">Aux Folies</a></div>
           <div class="eats-detail">8 Rue de Belleville — barul cel mai animat al cartierului, punct de plecare clasic spre Denoyez.</div>
         </div>
       </div>
@@ -767,7 +774,7 @@
   <div class="spot">
     <div class="roundel boheme"><span class="arr">18</span><span class="arr-l">ARR.</span></div>
     <div class="spot-body">
-      <h3 class="display">Marché Vernaison, Puces de Saint-Ouen</h3>
+      <h3 class="display"><a href="https://www.antiquepass.com/blog/histoire-marche-aux-puces-saint-ouen/" target="_blank" rel="noopener" class="spot-title-link">Marché Vernaison, Puces de Saint-Ouen</a></h3>
       <div class="quartier label">Cel mai vechi sector al Târgului de vechituri</div>
       <p>
         Un labirint de alei înguste cu tarabe de antichități, haine vintage și obiecte găsite —
@@ -778,12 +785,12 @@
       <div class="pair">
         <div class="eats">
           <div class="eats-label label">o cafenea</div>
-          <div class="eats-name">La Chope des Puces</div>
+          <div class="eats-name"><a href="https://www.tourisme93.com/document.php?pagendx=170&amp;engine_zoom=RESIDFC930001761" target="_blank" rel="noopener" class="spot-title-link">La Chope des Puces</a></div>
           <div class="eats-detail">122 Rue des Rosiers — cafeneaua de jazz musette unde a cântat Django Reinhardt, chiar în inima târgului.</div>
         </div>
         <div class="eats">
           <div class="eats-label label">un bar</div>
-          <div class="eats-name">Chez Louisette</div>
+          <div class="eats-name"><a href="https://uk.tourisme93.com/where-to-eat-in-the-flea-market.html" target="_blank" rel="noopener" class="spot-title-link">Chez Louisette</a></div>
           <div class="eats-detail">130 Avenue Michelet, în piața Vernaison — o guinguette cu muzicieni live, atmosferă de altă epocă.</div>
         </div>
       </div>
@@ -803,7 +810,7 @@
     <div class="cafe-card">
       <div class="cafe-top">
         <div class="cafe-badge"><span class="arr">4</span><span class="arr-l">ARR.</span></div>
-        <h3 class="display">Doong</h3>
+        <h3 class="display"><a href="https://www.timotheeparis.com/en-us/blogs/news/les-voyages-de-timothee-doong-cafe" target="_blank" rel="noopener" class="spot-title-link">Doong</a></h3>
       </div>
       <div class="addr label">8 Rue Saint-Paul, Le Marais</div>
       <p>Cafea vietnameză, ascunsă pe o străduță liniștită din Village Saint-Paul. Fără firmă mare, doar o ușă și mirosul de cafea prăjită.</p>
@@ -813,7 +820,7 @@
     <div class="cafe-card">
       <div class="cafe-top">
         <div class="cafe-badge"><span class="arr">10</span><span class="arr-l">ARR.</span></div>
-        <h3 class="display">Résidence Kann</h3>
+        <h3 class="display"><a href="https://www.leshardis.com/2025/01/ou-boire-cafe-canal-saint-martin-meilleur-coffee-shop/" target="_blank" rel="noopener" class="spot-title-link">Résidence Kann</a></h3>
       </div>
       <div class="addr label">28 Rue des Vinaigriers, lângă Canal Saint-Martin</div>
       <p>O cameră mică, ascunsă în spate, bună pentru citit sau lucrat, deși în față e loc de conversație. Cinnamon roll-ul se termină repede.</p>
@@ -823,7 +830,7 @@
     <div class="cafe-card">
       <div class="cafe-top">
         <div class="cafe-badge"><span class="arr">18</span><span class="arr-l">ARR.</span></div>
-        <h3 class="display">Two Doors Coffee-Shop</h3>
+        <h3 class="display"><a href="https://www.twodoors.fr/" target="_blank" rel="noopener" class="spot-title-link">Two Doors Coffee-Shop</a></h3>
       </div>
       <div class="addr label">27 Rue Francœur, Montmartre</div>
       <p>Pe o străduță liniștită din Montmartre, departe de coada de la Sacré-Cœur. Interior industrial, terasă mică pe trotuar.</p>
@@ -833,7 +840,7 @@
     <div class="cafe-card">
       <div class="cafe-top">
         <div class="cafe-badge"><span class="arr">20</span><span class="arr-l">ARR.</span></div>
-        <h3 class="display">Finca.Lab</h3>
+        <h3 class="display"><a href="https://europeancoffeetrip.com/cafe/fincacoffeelab-paris/" target="_blank" rel="noopener" class="spot-title-link">Finca.Lab</a></h3>
       </div>
       <div class="addr label">5 Rue du Liban, Belleville</div>
       <p>Un mic laborator de cafea specialty, condus de oameni pasionați care își prăjesc singuri boabele. Din cele mai puțin cunoscute din oraș.</p>
@@ -843,7 +850,7 @@
     <div class="cafe-card">
       <div class="cafe-top">
         <div class="cafe-badge"><span class="arr">18</span><span class="arr-l">ARR.</span></div>
-        <h3 class="display">Café Renoir</h3>
+        <h3 class="display"><a href="https://www.sortiraparis.com/en/where-to-eat-in-paris/brunch-cafe-tea-time/articles/146363-cafe-renoir-the-superb-hidden-terrace-of-the-montmartre-museum" target="_blank" rel="noopener" class="spot-title-link">Café Renoir</a></h3>
       </div>
       <div class="addr label">12 Rue Cortot, în grădina Muzeului Montmartre</div>
       <p>Cafenea ascunsă în grădina unde a pictat chiar Renoir, lângă singura vie din Paris. Se plătește intrarea, dar priveliștea merită.</p>
@@ -853,7 +860,7 @@
     <div class="cafe-card">
       <div class="cafe-top">
         <div class="cafe-badge"><span class="arr">3</span><span class="arr-l">ARR.</span></div>
-        <h3 class="display">Coffee — Torréfaction artisanale</h3>
+        <h3 class="display"><a href="https://www.corner.inc/place/p5MzhSAkzUEV" target="_blank" rel="noopener" class="spot-title-link">Coffee — Torréfaction artisanale</a></h3>
       </div>
       <div class="addr label">40 Rue Chapon, Haut-Marais</div>
       <p>O micro-torefacție braziliană, fără laptopuri, fără pretenții — doar cafea foarte bună și proprietari care își cunosc meseria.</p>
@@ -869,7 +876,7 @@
     <div class="spot-body">
       <div class="brancusi-head">
         <div class="kicker label">un colț românesc, aproape invizibil</div>
-        <h2 class="display">Atelierul lui Brâncuși</h2>
+        <h2 class="display"><a href="https://www.sortiraparis.com/arts-culture/exposition/articles/13611-accrochages-histoire-de-l-atelier-brancusi" target="_blank" rel="noopener" class="spot-title-link">Atelierul lui Brâncuși</a></h2>
         <p>
           Chiar pe piazza din fața Centre Pompidou, lipit de clădirea colorată pe care o știe toată lumea,
           se ascunde o construcție joasă și discretă, ușor de trecut cu vederea. Aici a fost reconstituit,
@@ -927,44 +934,45 @@
 <script>
   const spots = [
     { name: "Passage des Panoramas", arr: "2", what: "Cea mai veche galerie acoperită a Parisului", link: "https://www.sortiraparis.com/ro/ce-sa-vizitezi-la-paris/istorie-tratament/articles/351092-passajul-panoramelor-pasajul-acoperit-unde-oamenii-se-plimba-de-peste-doua-secole", lat: 48.8715109, lng: 2.341904 },
-    { name: "Rue Saint-Blaise", arr: "20", what: "Stradă medievală de sat, aproape uitată", lat: 48.8581975, lng: 2.4068453 },
-    { name: "Butte-aux-Cailles", arr: "13", what: "Cartier-sat cu case joase și alei pietruite", lat: 48.8271912, lng: 2.3490795 },
-    { name: "Arènes de Lutèce", arr: "5", what: "Amfiteatru roman ascuns între blocuri", lat: 48.845116, lng: 2.3528366 },
-    { name: "Parc des Buttes-Chaumont", arr: "19", what: "Stânci, cascadă și templu suspendat", lat: 48.8809496, lng: 2.3827609 },
-    { name: "Rue des Barres", arr: "4", what: "Străduță medievală lângă Sena", lat: 48.8553427, lng: 2.355261 }
+    { name: "Rue Saint-Blaise", arr: "20", what: "Stradă medievală de sat, aproape uitată", link: "https://www.sortiraparis.com/en/what-to-visit-in-paris/walks/articles/174333-walk-in-the-charonne-neighborhood", lat: 48.8581975, lng: 2.4068453 },
+    { name: "Butte-aux-Cailles", arr: "13", what: "Cartier-sat cu case joase și alei pietruite", link: "https://www.sortiraparis.com/en/what-to-visit-in-paris/walks/articles/171171-a-stroll-through-the-butte-aux-cailles-district-of-paris", lat: 48.8271912, lng: 2.3490795 },
+    { name: "Arènes de Lutèce", arr: "5", what: "Amfiteatru roman ascuns între blocuri", link: "https://www.sortiraparis.com/en/lieux/66178-lutetia-arena", lat: 48.845116, lng: 2.3528366 },
+    { name: "Parc des Buttes-Chaumont", arr: "19", what: "Stânci, cascadă și templu suspendat", link: "https://www.sortiraparis.com/en/what-to-visit-in-paris/history-heritage/articles/173670-parc-des-buttes-chaumont-paris-largest-charming-park-with-mountain-scenery", lat: 48.8809496, lng: 2.3827609 },
+    { name: "Rue des Barres", arr: "4", what: "Străduță medievală lângă Sena", link: "https://www.parisinsidersguide.com/places-in-paris-rue-des-barres.html", lat: 48.8553427, lng: 2.355261 }
   ];
 
   const eats = [
     { name: "Racines", detail: "8 Passage des Panoramas — bucătărie italiană, chiar în interiorul galeriei.", link: "https://guide.michelin.com/tr/en/ile-de-france/paris/restaurant/racines", lat: 48.8716, lng: 2.3419 },
-    { name: "Ploc", detail: "17 Rue Saint-Blaise — bistro cu vin natural, pe aceeași stradă pietonală.", lat: 48.8580, lng: 2.4070 },
-    { name: "Chez Gladines", detail: "30 Rue des Cinq Diamants — bucătărie bască, porții generoase, atmosferă de cartier.", lat: 48.8271, lng: 2.3505 },
-    { name: "Le Vieux Bistrot", detail: "54 Rue Mouffetard — bistro clasic, pe celebra stradă-piață din apropiere.", lat: 48.8443, lng: 2.3499 },
-    { name: "Rosa Bonheur Buttes Chaumont", detail: "2 Av. de la Cascade — chiar în interiorul parcului, terase, pizza și tapas.", lat: 48.8790, lng: 2.3823 },
-    { name: "L'Ébouillanté", detail: "6 Rue des Barres — cafenea-restaurant chiar pe stradă, faimoasă pentru „bricks”.", lat: 48.8553, lng: 2.3555 }
+    { name: "Ploc", detail: "17 Rue Saint-Blaise — bistro cu vin natural, pe aceeași stradă pietonală.", link: "https://guide.michelin.com/us/en/ile-de-france/paris/restaurant/ploc", lat: 48.8580, lng: 2.4070 },
+    { name: "Chez Gladines", detail: "30 Rue des Cinq Diamants — bucătărie bască, porții generoase, atmosferă de cartier.", link: "https://www.sortiraparis.com/en/lieux/365-chez-gladines", lat: 48.8271, lng: 2.3505 },
+    { name: "Le Vieux Bistrot", detail: "54 Rue Mouffetard — bistro clasic, pe celebra stradă-piață din apropiere.", link: "https://www.viamichelin.com/maps/restaurants/poi/paris-75005-0f2cc991", lat: 48.8443, lng: 2.3499 },
+    { name: "Rosa Bonheur Buttes Chaumont", detail: "2 Av. de la Cascade — chiar în interiorul parcului, terase, pizza și tapas.", link: "https://www.sortiraparis.com/en/where-to-eat-in-paris/bars-cafes/articles/219885-rosa-bonheur-des-buttes-chaumont-the-festive-guinguette-in-the-heart-of-the-19th-arrondissement-park", lat: 48.8790, lng: 2.3823 },
+    { name: "L'Ébouillanté", detail: "6 Rue des Barres — cafenea-restaurant chiar pe stradă, faimoasă pentru „bricks”.", link: "https://www.evous.fr/paris/le-marais/Bars-et-Cafes-dans-le-Marais-Paris/L-Ebouillante,1124935.html", lat: 48.8553, lng: 2.3555 }
   ];
 
   const cafes = [
-    { name: "Doong", arr: "4", what: "Cafea filtru vietnameză (phin), cu lapte condensat", lat: 48.8530907, lng: 2.3613699 },
-    { name: "Résidence Kann", arr: "10", what: "Cinnamon roll de casă, copt zilnic", lat: 48.8732839, lng: 2.3628555 },
-    { name: "Two Doors Coffee-Shop", arr: "18", what: "Flat white și cold brew, boabe locale", lat: 48.8908722, lng: 2.3402927 },
-    { name: "Finca.Lab", arr: "20", what: "Cafea specialty, prăjită chiar în local", lat: 48.8685871, lng: 2.3855437 },
-    { name: "Café Renoir", arr: "18", what: "Servire în grădină, lângă singura vie din Paris", lat: 48.8877243, lng: 2.3406304 },
-    { name: "Coffee — Torréfaction artisanale", arr: "3", what: "Boabe braziliene, prăjite artizanal în magazin", lat: 48.8639154, lng: 2.3546367 }
+    { name: "Doong", arr: "4", what: "Cafea filtru vietnameză (phin), cu lapte condensat", link: "https://www.timotheeparis.com/en-us/blogs/news/les-voyages-de-timothee-doong-cafe", lat: 48.8530907, lng: 2.3613699 },
+    { name: "Résidence Kann", arr: "10", what: "Cinnamon roll de casă, copt zilnic", link: "https://www.leshardis.com/2025/01/ou-boire-cafe-canal-saint-martin-meilleur-coffee-shop/", lat: 48.8732839, lng: 2.3628555 },
+    { name: "Two Doors Coffee-Shop", arr: "18", what: "Flat white și cold brew, boabe locale", link: "https://www.twodoors.fr/", lat: 48.8908722, lng: 2.3402927 },
+    { name: "Finca.Lab", arr: "20", what: "Cafea specialty, prăjită chiar în local", link: "https://europeancoffeetrip.com/cafe/fincacoffeelab-paris/", lat: 48.8685871, lng: 2.3855437 },
+    { name: "Café Renoir", arr: "18", what: "Servire în grădină, lângă singura vie din Paris", link: "https://www.sortiraparis.com/en/where-to-eat-in-paris/brunch-cafe-tea-time/articles/146363-cafe-renoir-the-superb-hidden-terrace-of-the-montmartre-museum", lat: 48.8877243, lng: 2.3406304 },
+    { name: "Coffee — Torréfaction artisanale", arr: "3", what: "Boabe braziliene, prăjite artizanal în magazin", link: "https://www.corner.inc/place/p5MzhSAkzUEV", lat: 48.8639154, lng: 2.3546367 }
   ];
 
   const boheme = [
-    { name: "Le Bateau-Lavoir", arr: "18", what: "Atelierul unde s-a născut cubismul lui Picasso", lat: 48.8862, lng: 2.3406 },
-    { name: "La Ruche", arr: "15", what: "Cité de artiști din rămășițele Expoziției din 1900", lat: 48.8329, lng: 2.3009 },
-    { name: "Les Frigos", arr: "13", what: "Fost depozit frigorific, azi ateliere de artiști", lat: 48.8321, lng: 2.3746 },
-    { name: "Cité Fleurie", arr: "14", what: "Curte de ateliere acoperite de iederă", lat: 48.8340, lng: 2.3496 },
-    { name: "Rue Denoyez", arr: "20", what: "Alee de street art repictată constant", lat: 48.8722, lng: 2.3822 },
-    { name: "Marché Vernaison, Puces de Saint-Ouen", arr: "18", what: "Cel mai vechi sector al târgului de vechituri", lat: 48.9016, lng: 2.3439 }
+    { name: "Le Bateau-Lavoir", arr: "18", what: "Atelierul unde s-a născut cubismul lui Picasso", link: "https://www.sortiraparis.com/en/what-to-visit-in-paris/history-heritage/articles/332833-histoire-bateau-lavoir-cite-artistes-montmartre-paris-18", lat: 48.8862, lng: 2.3406 },
+    { name: "La Ruche", arr: "15", what: "Cité de artiști din rămășițele Expoziției din 1900", link: "https://www.sortiraparis.com/en/what-to-visit-in-paris/exhibit-museum/articles/342221-unique-experience-free-access-to-the-iconic-artist-s-hive-in-paris", lat: 48.8329, lng: 2.3009 },
+    { name: "Les Frigos", arr: "13", what: "Fost depozit frigorific, azi ateliere de artiști", link: "https://www.untappedcities.com/les-frigos-an-artist-squat-in-paris-13th-arrondissement/", lat: 48.8321, lng: 2.3746 },
+    { name: "Cité Fleurie", arr: "14", what: "Curte de ateliere acoperite de iederă", link: "https://www.pariszigzag.fr/sortir-paris/balade-paris/un-village-dartistes-bucolique-et-verdoyant-au-coeur-de-paris", lat: 48.8340, lng: 2.3496 },
+    { name: "Rue Denoyez", arr: "20", what: "Alee de street art repictată constant", link: "https://www.visitparisregion.com/en/rue-denoyez", lat: 48.8722, lng: 2.3822 },
+    { name: "Marché Vernaison, Puces de Saint-Ouen", arr: "18", what: "Cel mai vechi sector al târgului de vechituri", link: "https://www.antiquepass.com/blog/histoire-marche-aux-puces-saint-ouen/", lat: 48.9016, lng: 2.3439 }
   ];
 
   const brancusi = {
     name: "Atelierul lui Brâncuși",
     arr: "4",
     what: "Deschis publicului din 1997, reconstituit după fotografiile făcute chiar de Brâncuși propriului atelier",
+    link: "https://www.sortiraparis.com/arts-culture/exposition/articles/13611-accrochages-histoire-de-l-atelier-brancusi",
     lat: 48.8605, lng: 2.3522
   };
 
@@ -999,8 +1007,9 @@
   });
 
   cafes.forEach(c => {
+    const cLinkHtml = c.link ? `<a href="${c.link}" target="_blank" rel="noopener" class="map-tip-link">Citește mai mult →</a>` : '';
     L.marker([c.lat, c.lng], { icon: roseIcon }).addTo(map)
-      .bindPopup(`<b>${c.name}</b>Arondismentul ${c.arr} — Cafenea ascunsă · ${c.what}`)
+      .bindPopup(`<b>${c.name}</b>Arondismentul ${c.arr} — Cafenea ascunsă · ${c.what}${cLinkHtml}`)
       .bindTooltip(`<b>${c.name}</b><br>Arondismentul ${c.arr} · Cafenea ascunsă<br>${c.what}`, {
         direction: 'top', offset: [0, -9], opacity: 0.96, className: 'map-tip'
       });
@@ -1014,8 +1023,9 @@
   });
 
   boheme.forEach(b => {
+    const bLinkHtml = b.link ? `<a href="${b.link}" target="_blank" rel="noopener" class="map-tip-link">Citește mai mult →</a>` : '';
     L.marker([b.lat, b.lng], { icon: bohemeIcon }).addTo(map)
-      .bindPopup(`<b>${b.name}</b>Arondismentul ${b.arr} — Loc boem · ${b.what}`)
+      .bindPopup(`<b>${b.name}</b>Arondismentul ${b.arr} — Loc boem · ${b.what}${bLinkHtml}`)
       .bindTooltip(`<b>${b.name}</b><br>Arondismentul ${b.arr} · Loc boem<br>${b.what}`, {
         direction: 'top', offset: [0, -9], opacity: 0.96, className: 'map-tip'
       });
@@ -1028,8 +1038,9 @@
     iconAnchor: [8,8]
   });
 
+  const brancusiLinkHtml = brancusi.link ? `<a href="${brancusi.link}" target="_blank" rel="noopener" class="map-tip-link">Citește mai mult →</a>` : '';
   L.marker([brancusi.lat, brancusi.lng], { icon: skyIcon }).addTo(map)
-    .bindPopup(`<b>${brancusi.name}</b>Arondismentul ${brancusi.arr} — Atelier Brâncuși · ${brancusi.what}`)
+    .bindPopup(`<b>${brancusi.name}</b>Arondismentul ${brancusi.arr} — Atelier Brâncuși · ${brancusi.what}${brancusiLinkHtml}`)
     .bindTooltip(`<b>${brancusi.name}</b><br>Arondismentul ${brancusi.arr} · Atelier Brâncuși<br>${brancusi.what}`, {
       direction: 'top', offset: [0, -10], opacity: 0.96, className: 'map-tip'
     });
@@ -1060,6 +1071,22 @@
 
   if (bgAudio) {
     let isHovering = false;
+
+    // Încearcă pornirea imediată, la deschiderea paginii.
+    const tryPlay = () => bgAudio.play().catch(() => {});
+    tryPlay();
+
+    // Dacă browserul blochează autoplay-ul cu sunet, pornește melodia
+    // la prima atingere/click/tastă apăsată oriunde pe pagină.
+    const startOnFirstInteraction = () => {
+      tryPlay();
+      window.removeEventListener('click', startOnFirstInteraction);
+      window.removeEventListener('touchstart', startOnFirstInteraction);
+      window.removeEventListener('keydown', startOnFirstInteraction);
+    };
+    window.addEventListener('click', startOnFirstInteraction, { once: true });
+    window.addEventListener('touchstart', startOnFirstInteraction, { once: true });
+    window.addEventListener('keydown', startOnFirstInteraction, { once: true });
 
     bgAudio.addEventListener('play', () => {
       setTimeout(() => {
