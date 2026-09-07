@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paris — un ghid al locurilor ascunse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Oswald:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+  :root{
+    --navy: #F6E4C4;
+    --navy-deep: #EFD6AC;
+    --cream: #3B2417;
+    --gold: #B5472B;
+    --gold-bright: #8C2F27;
+    --rose: #7A2E2E;
+    --ink: #4A2E1C;
+    --ink-dim: #8A6748;
+    --hairline: rgba(139,60,30,0.3);
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--navy-deep);
+    color:var(--ink);
+    font-family:'Source Serif 4', serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+
+  .display{ font-family:'Cormorant Garamond', serif; }
+  .label{ font-family:'Oswald', sans-serif; text-transform:uppercase; letter-spacing:0.14em; }
+
+  /* ---------- background texture ---------- */
+  .noctis{
+    position:fixed; inset:0; z-index:-1;
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 0%, rgba(181,71,43,0.12), transparent 60%),
+      linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 55%, #E7C594 100%);
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:6vh 6vw 10vh;
+    overflow:hidden;
+  }
+
+  .hero .eyebrow{
+    color:var(--gold);
+    font-size:0.78rem;
+    margin-bottom:1.6rem;
+  }
+
+  .hero h1{
+    font-size:clamp(4.5rem, 15vw, 9.5rem);
+    font-weight:500;
+    font-style:italic;
+    color:var(--cream);
+    line-height:0.95;
+    letter-spacing:0.01em;
+  }
+
+  .hero .sub{
+    margin-top:1.6rem;
+    max-width:34ch;
+    color:var(--ink-dim);
+    font-size:1.05rem;
+    font-style:italic;
+  }
+
+  .tower-wrap{
+    margin-top:3rem;
+    width:min(70vw, 260px);
+    filter:drop-shadow(0 0 26px rgba(139,60,30,0.25));
+  }
+
+  .tower-wrap svg{ width:100%; height:auto; display:block; }
+
+  .scroll-cue{
+    position:absolute; bottom:2.6rem; left:50%; transform:translateX(-50%);
+    display:flex; flex-direction:column; align-items:center; gap:0.5rem;
+    color:var(--gold);
+  }
+  .scroll-cue .line{ width:1px; height:38px; background:linear-gradient(var(--gold), transparent); animation:pulse 2.2s ease-in-out infinite; }
+  @keyframes pulse{ 0%,100%{opacity:0.25;} 50%{opacity:1;} }
+
+  /* ---------- SECTION shell ---------- */
+  section{ position:relative; padding:9vh 6vw; max-width:1080px; margin:0 auto; }
+  .kicker{ color:var(--gold); font-size:0.72rem; margin-bottom:1.1rem; }
+
+  /* ---------- INTRO ---------- */
+  .intro h2{
+    font-size:clamp(2.2rem, 5vw, 3.4rem);
+    font-weight:500;
+    font-style:italic;
+    color:var(--cream);
+    max-width:16ch;
+    margin-bottom:1.6rem;
+  }
+  .intro p{
+    max-width:62ch;
+    color:var(--ink);
+    font-size:1.08rem;
+  }
+  .intro .stats{
+    display:flex; flex-wrap:wrap; gap:2.6rem;
+    margin-top:3rem;
+    border-top:1px solid var(--hairline);
+    padding-top:2rem;
+  }
+  .intro .stat .n{ font-family:'Cormorant Garamond', serif; font-size:2.4rem; color:var(--gold-bright); font-style:italic; }
+  .intro .stat .l{ font-size:0.68rem; color:var(--ink-dim); margin-top:0.3rem; }
+
+  /* ---------- SECRET SPOTS ---------- */
+  .secrets-head{ text-align:left; margin-bottom:3.4rem; }
+  .secrets-head h2{
+    font-size:clamp(2.2rem, 5vw, 3.4rem);
+    font-weight:500; font-style:italic; color:var(--cream);
+  }
+  .secrets-head p{ color:var(--ink-dim); max-width:56ch; margin-top:0.9rem; }
+
+  .spot{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:1.8rem;
+    padding:2.6rem 0;
+    border-top:1px solid var(--hairline);
+    align-items:start;
+  }
+  .spot:last-child{ border-bottom:1px solid var(--hairline); }
+
+  .roundel{
+    width:72px; height:72px; border-radius:50%;
+    border:3px solid var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column;
+    background:radial-gradient(circle at 35% 30%, rgba(181,71,43,0.14), transparent 70%);
+    flex-shrink:0;
+  }
+  .roundel .arr{ font-family:'Oswald',sans-serif; font-size:1.5rem; color:#FFFFFF; font-weight:600; }
+  .roundel .arr-l{ font-family:'Oswald',sans-serif; font-size:0.5rem; letter-spacing:0.08em; color:#FFFFFF; margin-top:1px; }
+  .roundel:not(.boheme):not(.navy){
+    border-color:#000000;
+    background:#FFFFFF;
+  }
+  .roundel:not(.boheme):not(.navy) .arr{ color:#000000; }
+  .roundel:not(.boheme):not(.navy) .arr-l{ color:#000000; }
+
+  .spot-body h3{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic; font-weight:500;
+    font-size:1.85rem;
+    color:var(--cream);
+    margin-bottom:0.5rem;
+  }
+  .spot-title-link{
+    color:inherit;
+    text-decoration:none;
+    border-bottom:1px solid transparent;
+    transition:border-color 0.2s ease, color 0.2s ease;
+  }
+  .spot-title-link:hover{
+    color:var(--gold-bright);
+    border-bottom-color:var(--gold-bright);
+  }
+  .spot-body .quartier{ font-size:0.7rem; color:var(--rose); margin-bottom:0.9rem; }
+  .spot-body p{ color:var(--ink); max-width:60ch; font-size:1rem; }
+  .spot-body .tip{
+    margin-top:0.9rem; font-size:0.86rem; color:var(--ink-dim);
+    padding-left:1rem; border-left:2px solid var(--hairline);
+    font-style:italic;
+  }
+
+  /* ---------- MAP ---------- */
+  .map-head{ margin-bottom:2.4rem; }
+  .map-head h2{
+    font-size:clamp(2.2rem, 5vw, 3.4rem);
+    font-weight:500; font-style:italic; color:var(--cream);
+  }
+  .map-head p{ color:var(--ink-dim); max-width:56ch; margin-top:0.9rem; }
+
+  #paris-map{
+    width:100%;
+    height:440px;
+    border-radius:4px;
+    border:1px solid var(--hairline);
+    box-shadow:0 18px 40px rgba(74,46,28,0.18);
+    filter:sepia(18%) saturate(78%) hue-rotate(-6deg) contrast(96%) brightness(103%);
+  }
+  .leaflet-popup-content-wrapper{
+    background:var(--navy);
+    color:var(--ink);
+    border-radius:2px;
+    font-family:'Source Serif 4', serif;
+  }
+  .leaflet-popup-content{ margin:0.7rem 0.9rem; font-size:0.9rem; }
+  .leaflet-popup-content b{ font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.15rem; color:var(--gold-bright); display:block; margin-bottom:0.2rem; }
+  .map-tip-link{
+    display:inline-block;
+    margin-top:0.5rem;
+    font-size:0.78rem;
+    color:var(--gold-bright);
+    text-decoration:underline;
+    font-weight:600;
+  }
+  .map-tip-link:hover{ color:var(--gold); }
+  .leaflet-popup-tip{ background:var(--navy); }
+  .leaflet-container a.leaflet-popup-close-button{ color:var(--ink-dim); }
+
+  .leaflet-tooltip.map-tip{
+    background:var(--navy);
+    color:var(--ink);
+    border:1px solid var(--gold);
+    border-radius:2px;
+    font-family:'Source Serif 4', serif;
+    font-size:0.85rem;
+    padding:0.5rem 0.75rem;
+    box-shadow:0 10px 26px rgba(23,20,15,0.35);
+  }
+  .leaflet-tooltip.map-tip b{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-size:1.05rem;
+    color:var(--gold-bright);
+    display:block;
+    margin-bottom:0.15rem;
+  }
+  .leaflet-tooltip.map-tip::before{ border-top-color:var(--gold); }
+
+  .map-legend{
+    margin-top:1.2rem; display:flex; align-items:center; gap:0.6rem;
+    font-size:0.72rem; color:var(--ink-dim);
+  }
+  .map-legend .dot{ width:9px; height:9px; border-radius:50%; background:var(--gold); border:1px solid var(--gold-bright); display:inline-block; }
+
+  .spot-dot{ cursor:pointer; }
+
+  /* ---------- RESTAURANT TIP ---------- */
+  .eats{
+    margin-top:1.1rem;
+    padding:0.9rem 1rem;
+    border:1px solid var(--hairline);
+    border-radius:2px;
+    background:rgba(139,60,30,0.05);
+  }
+  #secrets .eats{
+    border-color:#2E8B57;
+    background:rgba(46,139,87,0.06);
+  }
+  .eats .eats-label{ font-size:0.62rem; color:var(--gold); margin-bottom:0.3rem; }
+  .eats .eats-name{ font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.15rem; color:var(--cream); }
+  .eats .eats-detail{ font-size:0.85rem; color:var(--ink-dim); margin-top:0.15rem; }
+
+  /* ---------- CAFÉS ---------- */
+  .cafes-head{ margin-bottom:2.6rem; }
+  .cafes-head h2{
+    font-size:clamp(2.2rem, 5vw, 3.4rem);
+    font-weight:500; font-style:italic; color:var(--cream);
+  }
+  .cafes-head p{ color:var(--ink-dim); max-width:56ch; margin-top:0.9rem; }
+
+  .cafe-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:1.4rem;
+  }
+  .cafe-card{
+    border:1px solid var(--hairline);
+    border-radius:2px;
+    padding:1.6rem 1.4rem;
+    background:rgba(139,60,30,0.04);
+  }
+  .cafe-card .cafe-top{
+    display:flex; align-items:center; gap:0.7rem;
+    margin-bottom:0.8rem;
+  }
+  .cafe-badge{
+    width:44px; height:44px; border-radius:50%;
+    border:2px solid #F6E4C4;
+    box-shadow:0 0 0 2px #000000;
+    background:#111111;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .cafe-badge .arr{ font-family:'Oswald',sans-serif; font-size:0.95rem; font-weight:600; color:#FFFFFF; }
+  .cafe-badge .arr-l{ font-family:'Oswald',sans-serif; font-size:0.42rem; letter-spacing:0.08em; color:#FFFFFF; margin-top:1px; }
+  .cafe-card h3{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic; font-weight:500;
+    font-size:1.35rem;
+    color:var(--cream);
+  }
+  .cafe-card .addr{ font-size:0.68rem; color:var(--ink-dim); margin-bottom:0.7rem; }
+  .cafe-card p{ color:var(--ink); font-size:0.92rem; }
+  .cafe-card .specific{
+    margin-top:0.65rem;
+    padding-top:0.6rem;
+    border-top:1px solid var(--hairline);
+    font-size:0.78rem;
+    color:var(--ink-dim);
+  }
+  .cafe-card .specific b{ color:var(--gold-bright); font-weight:600; font-style:normal; }
+
+  @media (max-width:900px){
+    .cafe-grid{ grid-template-columns:repeat(2, 1fr); }
+  }
+  @media (max-width:640px){
+    .cafe-grid{ grid-template-columns:1fr; }
+  }
+
+  /* ---------- BOHEME ---------- */
+  .boheme-head{ text-align:left; margin-bottom:3.4rem; }
+  .boheme-head h2{
+    font-size:clamp(2.2rem, 5vw, 3.4rem);
+    font-weight:500; font-style:italic; color:var(--cream);
+  }
+  .boheme-head p{ color:var(--ink-dim); max-width:56ch; margin-top:0.9rem; }
+
+  .roundel.boheme{
+    border:2px solid #EFD6AC;
+    box-shadow:0 0 0 2px #E67E22;
+    background:#E67E22;
+  }
+  .roundel.boheme .arr{ color:#EFD6AC; }
+  .roundel.boheme .arr-l{ color:#EFD6AC; }
+
+  .pair{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1rem;
+    margin-top:1.1rem;
+  }
+  .pair .eats{ margin-top:0; }
+  @media (max-width:640px){
+    .pair{ grid-template-columns:1fr; }
+  }
+
+  .roundel.navy{ border-color:#3E9BC2; }
+  .roundel.navy .arr{ color:#3E9BC2; }
+  .roundel.navy .arr-l{ color:#3E9BC2; }
+
+  .brancusi-head{ text-align:left; margin-bottom:2.2rem; }
+  .brancusi-head h2{
+    font-size:clamp(2.2rem, 5vw, 3.4rem);
+    font-weight:500; font-style:italic; color:var(--cream);
+  }
+  .brancusi-head p{ color:var(--ink-dim); max-width:56ch; margin-top:0.9rem; }
+
+  .brancusi-facts{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1.2rem;
+    margin-top:1.6rem;
+  }
+  .brancusi-facts .fact{
+    border-left:2px solid #1B2A4A;
+    padding-left:1rem;
+  }
+  .brancusi-facts .fact-label{ font-size:0.72rem; color:#1B2A4A; margin-bottom:0.3rem; }
+  .brancusi-facts .fact p{ font-size:0.92rem; color:var(--ink); }
+  @media (max-width:720px){
+    .brancusi-facts{ grid-template-columns:1fr; }
+  }
+
+  .audio-hover-zone{
+    position:fixed;
+    top:0; right:0;
+    width:320px; height:220px;
+    z-index:999;
+  }
+  .audio-controls{
+    position:fixed;
+    top:1rem; right:1rem;
+    width:300px; max-width:88vw;
+    background:var(--navy);
+    border:1px solid var(--hairline);
+    border-radius:8px;
+    padding:1rem 1.1rem 1.2rem;
+    text-align:center;
+    z-index:1000;
+    box-shadow:0 12px 30px rgba(0,0,0,0.4);
+    transition:opacity 0.35s ease;
+  }
+  .audio-controls.hidden-panel{
+    opacity:0;
+    pointer-events:none;
+  }
+  .audio-controls .kicker{ margin-bottom:0.4rem; }
+  .audio-controls h2{
+    font-size:1.15rem;
+    font-weight:500; font-style:italic; color:var(--cream);
+    margin-bottom:0.7rem;
+  }
+  .audio-controls p{ color:var(--ink-dim); font-size:0.76rem; margin-bottom:0.9rem; line-height:1.4; }
+  .audio-controls audio{ width:100%; max-width:260px; margin-top:0.3rem; }
+  .audio-controls .credit-line{
+    margin-top:0.6rem;
+    font-size:0.62rem;
+    color:var(--ink-dim);
+    opacity:0.75;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    text-align:center; padding:6vh 6vw 8vh;
+    color:var(--ink-dim); font-size:0.85rem;
+  }
+  footer .display{ color:var(--gold); font-size:1.6rem; margin-bottom:0.6rem; }
+  footer .credit-line{
+    margin-top:1rem;
+    font-size:0.62rem;
+    color:var(--ink-dim);
+    opacity:0.6;
+  }
+
+  @media (max-width:640px){
+    .spot{ grid-template-columns:1fr; }
+    .roundel{ width:58px; height:58px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="noctis"></div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="eyebrow label">un scurt ghid neconvențional</div>
+  <h1 class="display">Paris</h1>
+  <p class="sub">Nu turnul, ci umbra lui pe o stradă pietruită. Nu muzeul, ci ușa laterală pe care puțini o observă.</p>
+
+  <div class="tower-wrap">
+    <svg viewBox="0 0 200 320" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#8C2F27" stroke-width="1.4">
+      <line x1="100" y1="6" x2="100" y2="30"/>
+      <path d="M100 30 L60 300 M100 30 L140 300"/>
+      <path d="M78 150 L122 150"/>
+      <path d="M70 180 L130 180"/>
+      <path d="M64 220 L136 220"/>
+      <path d="M60 300 L140 300 L150 320 L50 320 Z"/>
+      <path d="M100 30 L86 90 L114 90 Z"/>
+      <path d="M86 90 L60 220 M114 90 L140 220"/>
+      <path d="M50 320 L60 300 M150 320 L140 300"/>
+      <line x1="45" y1="320" x2="155" y2="320"/>
+    </svg>
+  </div>
+
+  <div class="scroll-cue">
+    <span class="line"></span>
+    <span class="label" style="font-size:0.62rem;">derulează</span>
+  </div>
+</header>
+
+<!-- INTRO -->
+<section class="intro">
+  <div class="kicker label">orașul, pe scurt</div>
+  <h2 class="display">Un oraș care se citește ca o hartă de metrou.</h2>
+  <p>
+    Parisul se organizează în spirală, din 20 de arondismente ce pornesc din inima orașului
+    și se rotesc spre exterior ca melcul unei cochilii. E o structură rară printre marile
+    capitale — și explică de ce orașul pare mereu să aibă un „mai departe”: un pasaj acoperit
+    din secolul XIX, o grădină ascunsă în spatele unui zid, o stradă care nu apare pe traseele
+    turistice obișnuite. Ghidul de mai jos nu urmărește monumentele mari, ci colțurile pe care
+    parizienii le păstrează pentru ei.
+  </p>
+  <div class="stats">
+    <div class="stat"><div class="n display">20</div><div class="label l">arondismente</div></div>
+    <div class="stat"><div class="n display">1853</div><div class="label l">anul marilor bulevarde</div></div>
+    <div class="stat"><div class="n display">6</div><div class="label l">locuri ascunse, mai jos</div></div>
+    <div class="stat"><div class="n display">6</div><div class="label l">locuri boeme</div></div>
+  </div>
+</section>
+
+<!-- MAP -->
+<section class="map-section">
+  <div class="map-head">
+    <div class="kicker label">unde anume</div>
+    <h2 class="display">Totul, pe hartă</h2>
+    <p>Pentru a descoperi locuri și cafenele ascunse în Paris, treci cu mouse-ul peste unul din punctele negre sau albe pe harta Parisului și vei afla numele și arondismentul unde se găsește.</p>
+  </div>
+  <div id="paris-map"></div>
+  <div class="map-legend">
+    <span class="dot" style="background:#FFFFFF; border-color:#2B2320;"></span> Loc ascuns
+    <span class="dot" style="background:#111111; border-color:#000000; margin-left:1.1rem;"></span> Cafenea ascunsă
+    <span class="dot" style="background:#E67E22; border-color:#A85A16; margin-left:1.1rem;"></span> Loc boem
+    <span class="dot" style="background:#7EC8E3; border-color:#3E9BC2; margin-left:1.1rem;"></span> Atelierul Brâncuși
+    <span class="dot" style="background:#2E8B57; border-color:#1D5C3A; margin-left:1.1rem;"></span> Unde mâncăm aproape de locurile ascunse ale Parisului
+  </div>
+</section>
+
+<!-- SECRET SPOTS -->
+<section id="secrets">
+  <div class="secrets-head">
+    <div class="kicker label">nu sunt pe hărțile turistice</div>
+    <h2 class="display">Șase locuri ascunse</h2>
+    <p>Fiecare e marcat cu arondismentul lui — indiciul parizian pentru "unde anume".</p>
+  </div>
+
+  <div class="spot">
+    <div class="roundel"><span class="arr">10</span><span class="arr-l">ARR.</span></div>
+    <div class="spot-body">
+      <h3 class="display"><a href="https://www.sortiraparis.com/ro/ce-sa-vizitezi-la-paris/istorie-tratament/articles/351092-passajul-panoramelor-pasajul-acoperit-unde-oamenii-se-plimba-de-peste-doua-secole" target="_blank" rel="noopener" class="spot-title-link">Pasajele acoperite din cartierul Grands Boulevards</a></h3>
+      <div class="quartier label">Passage des Panoramas &amp; vecinii lui</div>
+      <p>
+        Galerii de sticlă și fier din secolul XIX, cu librării vechi, ateliere de gravură și
+        bistrouri minuscule. Erau mall-urile Parisului dinainte de mall-uri, iar azi rămân
+        aproape goale de turiști la orele de dimineață.
+      </p>
+      <div class="tip">Sfat: intră dinspre Rue Saint-Marc, nu dinspre bulevard — traseul e mai liniștit.</div>
+      <div class="eats">
+        <div class="eats-label label">unde mănânci aproape</div>
+        <div class="eats-name"><a href="https://guide.michelin.com/tr/en/ile-de-france/paris/restaurant/racines" target="_blank" rel="noopener" class="spot-title-link">Racines</a></div>
+        <div class="eats-detail">8 Passage des Panoramas — bucătărie italiană, chiar în interiorul galeriei.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spot">
+    <div class="roundel"><span class="arr">20</span><span class="arr-l">ARR.</span></div>
+    <div class="spot-body">
+      <h3 class="display">Micul „sat” din Charonne</h3>
+      <div class="quartier label">Rue Saint-Blaise, lângă Père Lachaise</div>
+      <p>
+        La zece minute de mormântul lui Jim Morrison se ascunde o stradă cu aer de sat medieval,
+        cu o biserică romanică și case joase care par uitate de restul orașului.
+      </p>
+      <div class="tip">Sfat: combină vizita cu o plimbare prin Père Lachaise, apoi ieși pe partea estică.</div>
+      <div class="eats">
+        <div class="eats-label label">unde mănânci aproape</div>
+        <div class="eats-name">Ploc</div>
+        <div class="eats-detail">17 Rue Saint-Blaise — bistro cu vin natural, pe aceeași stradă pietonală.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spot">
+    <div class="roundel"><span class="arr">13</span><span class="arr-l">ARR.</span></div>
+    <div class="spot-body">
+      <h3 class="display">Butte-aux-Cailles</h3>
+      <div class="quartier label">sudul celui de-al 13-lea arondisment</div>
+      <p>
+        Un cartier de străduțe înguste, case cu grădină și fațade acoperite de graffiti bine
+        îngrijit, ridicat pe un deal care a scăpat de renovările lui Haussmann. Simte-te ca într-un
+        orășel de provincie aflat, totuși, în interiorul Parisului.
+      </p>
+      <div class="tip">Sfat: termină seara la o piscină publică art-deco alimentată dintr-un izvor subteran.</div>
+      <div class="eats">
+        <div class="eats-label label">unde mănânci aproape</div>
+        <div class="eats-name">Chez Gladines</div>
+        <div class="eats-detail">30 Rue des Cinq Diamants — bucătărie bască, porții generoase, atmosferă de cartier.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spot">
+    <div class="roundel"><span class="arr">05</span><span class="arr-l">ARR.</span></div>
+    <div class="spot-body">
+      <h3 class="display">Grădina din spatele Arenelor de Lutèce</h3>
+      <div class="quartier label">Cartierul Latin</div>
+      <p>
+        Rămășițele unui amfiteatru roman, ascunse între blocuri de apartamente. Localnicii joacă
+        petanque pe nisipul arenei, iar mulți vizitatori ai Cartierului Latin trec la câțiva pași
+        fără să știe că există.
+      </p>
+      <div class="tip">Sfat: intrarea discretă e pe Rue de Navarre, printr-un gang ce nu pare să ducă nicăieri.</div>
+      <div class="eats">
+        <div class="eats-label label">unde mănânci aproape</div>
+        <div class="eats-name">Le Vieux Bistrot</div>
+        <div class="eats-detail">54 Rue Mouffetard — bistro clasic, pe celebra stradă-piață din apropiere.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spot">
+    <div class="roundel"><span class="arr">19</span><span class="arr-l">ARR.</span></div>
+    <div class="spot-body">
+      <h3 class="display">Parcul des Buttes-Chaumont</h3>
+      <div class="quartier label">nord-estul Parisului</div>
+      <p>
+        Un parc construit pe o fostă carieră de piatră, cu stânci artificiale, o cascadă și un
+        templu grec în vârful unei insule. Cel mai teatral parc al orașului — și cel mai puțin
+        vizitat de străini.
+      </p>
+      <div class="tip">Sfat: urcă la templu chiar înainte de apus, pentru priveliștea peste acoperișurile Parisului.</div>
+      <div class="eats">
+        <div class="eats-label label">unde mănânci aproape</div>
+        <div class="eats-name">Rosa Bonheur Buttes Chaumont</div>
+        <div class="eats-detail">2 Av. de la Cascade — chiar în interiorul parcului, terase, pizza și tapas.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spot">
+    <div class="roundel"><span class="arr">04</span><span class="arr-l">ARR.</span></div>
+    <div class="spot-body">
+      <h3 class="display">Rue des Barres</h3>
+      <div class="quartier label">Le Marais, în spatele bisericii Saint-Gervais</div>
+      <p>
+        O străduță medievală, pietruită și aproape neschimbată, cu case pe jumătate din lemn —
+        rară în Paris. La câțiva pași de Notre-Dame, dar aproape mereu pustie.
+      </p>
+      <div class="tip">Sfat: vino la ora prânzului pentru lumina care cade direct pe fațadele istorice.</div>
+      <div class="eats">
+        <div class="eats-label label">unde mănânci aproape</div>
+        <div class="eats-name">L'Ébouillanté</div>
+        <div class="eats-detail">6 Rue des Barres — cafenea-restaurant chiar pe stradă, faimoasă pentru „bricks".</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOHEME -->
+<section id="boheme">
+  <div class="boheme-head">
+    <div class="kicker label">unde a trăit Parisul boem</div>
+    <h2 class="display">Șase locuri boeme</h2>
+    <p>Nu doar ascunse — ci locurile care au dat naștere ideii de „Paris boem": ateliere de pictori, cartiere de artizani și pasaje unde bricolajul și arta se amestecă și azi.</p>
+  </div>
+
+  <div class="spot">
+    <div class="roundel boheme"><span class="arr">18</span><span class="arr-l">ARR.</span></div>
+    <div class="spot-body">
+      <h3 class="display">Le Bateau-Lavoir</h3>
+      <div class="quartier label">Place Émile-Goudeau, Montmartre</div>
+      <p>
+        O clădire modestă de lemn unde Picasso a pictat „Domnișoarele din Avignon” și unde s-a
+        născut cubismul. Locul e reconstruit după un incendiu, dar piațeta din fața lui, cu o
+        fântână veche și trepte umbrite, păstrează exact atmosfera boemă de acum un secol.
+      </p>
+      <div class="tip">Sfat: vino dimineața devreme, înainte ca autocarele să urce spre Sacré-Cœur.</div>
+      <div class="pair">
+        <div class="eats">
+          <div class="eats-label label">o cafenea</div>
+          <div class="eats-name">La Maison Rose</div>
+          <div class="eats-detail">2 Rue de l'Abreuvoir — fațada roz pictată chiar de Utrillo, la două pași de Bateau-Lavoir.</div>
+        </div>
+        <div class="eats">
+          <div class="eats-label label">un bar</div>
+          <div class="eats-name">La Fourmi</div>
+          <div class="eats-detail">74 Rue des Martyrs — bar-cafenea istoric, loc de întâlnire al boemei montmartroise de decenii.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spot">
+    <div class="roundel boheme"><span class="arr">15</span><span class="arr-l">ARR.</span></div>
+    <div class="spot-body">
+      <h3 class="display">La Ruche</h3>
+      <div class="quartier label">Passage de Dantzig</div>
+      <p>
+        O rotondă ciudată, ridicată din rămășițele Expoziției Universale din 1900, transformată
+        de sculptorul Alfred Boucher în ateliere ieftine pentru artiști fără mijloace. Chagall,
+        Soutine și Modigliani au lucrat aici — și azi e tot o cité de artiști, ascunsă după o
+        poartă de fier acoperită de iederă.
+      </p>
+      <div class="tip">Sfat: se vizitează doar cu ocazia porților deschise — verifică programul înainte.</div>
+      <div class="pair">
+        <div class="eats">
+          <div class="eats-label label">o cafenea</div>
+          <div class="eats-name">Le Dantzig</div>
+          <div class="eats-detail">1 Passage de Dantzig — chiar la intrarea în La Ruche, café-bar de cartier, deopotrivă bun dimineața și seara.</div>
+        </div>
+        <div class="eats">
+          <div class="eats-label label">un bar</div>
+          <div class="eats-name">Le Dantzig, seara</div>
+          <div class="eats-detail">Același loc se transformă spre seară în bar de cartier — terasa rămâne animată până târziu.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spot">
+    <div class="roundel boheme"><span class="arr">13</span><span class="arr-l">ARR.</span></div>
+    <div class="spot-body">
+      <h3 class="display">Les Frigos</h3>
+      <div class="quartier label">19 Rue des Frigos</div>
+      <p>
+        Un fost depozit frigorific din 1921, care aproviziona halele Parisului cu produse
+        proaspete, ocupat azi de peste optzeci de ateliere de pictori, sculptori și muzicieni.
+        Fațada plină de graffiti nu lasă loc de îndoială asupra spiritului locului.
+      </p>
+      <div class="tip">Sfat: cele mai multe ateliere se deschid publicului doar la evenimente organizate — dar fațada merită oricând ocolul.</div>
+      <div class="pair">
+        <div class="eats">
+          <div class="eats-label label">o cafenea</div>
+          <div class="eats-name">La Maison des Frigos</div>
+          <div class="eats-detail">19 Rue des Frigos — cantina chiar din interiorul clădirii, printre expoziții și artiști în trecere.</div>
+        </div>
+        <div class="eats">
+          <div class="eats-label label">un bar</div>
+          <div class="eats-name">Petit Bain</div>
+          <div class="eats-detail">7 Port de la Gare — bar-club pe o pontonă plutitoare pe Sena, la câțiva pași de Frigos.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spot">
+    <div class="roundel boheme"><span class="arr">14</span><span class="arr-l">ARR.</span></div>
+    <div class="spot-body">
+      <h3 class="display">Cité Fleurie</h3>
+      <div class="quartier label">65 Boulevard Arago</div>
+      <p>
+        Ateliere joase, acoperite de iederă și glicine, construite tot din materiale recuperate
+        de la Expoziția Universală din 1878. Gauguin și Modigliani au avut aici studiouri —
+        astăzi rămâne o curte privată de artiști, vizibilă doar printre gratiile porții.
+      </p>
+      <div class="tip">Sfat: privește printre bare dinspre bulevard — curtea nu e deschisă publicului larg.</div>
+      <div class="pair">
+        <div class="eats">
+          <div class="eats-label label">o cafenea</div>
+          <div class="eats-name">Café Premier</div>
+          <div class="eats-detail">17 Boulevard Arago — terasă chiar pe bulevard, cu vedere spre zidurile Cité Fleurie.</div>
+        </div>
+        <div class="eats">
+          <div class="eats-label label">un bar</div>
+          <div class="eats-name">Café Paulette</div>
+          <div class="eats-detail">48 Boulevard Arago — bar de cartier discret, bun pentru un pahar după plimbare.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spot">
+    <div class="roundel boheme"><span class="arr">20</span><span class="arr-l">ARR.</span></div>
+    <div class="spot-body">
+      <h3 class="display">Rue Denoyez</h3>
+      <div class="quartier label">Belleville</div>
+      <p>
+        O străduță întreagă lăsată liberă artiștilor de street art, repictată constant, unde
+        fiecare vizită arată diferit. E inima boemă și contemporană a Belleville-ului, cartierul
+        care i-a adăpostit pe Piaf și pe mulți imigranți-artiști.
+      </p>
+      <div class="tip">Sfat: vino la apus, când lumina caldă scoate în evidență culorile fațadelor.</div>
+      <div class="pair">
+        <div class="eats">
+          <div class="eats-label label">o cafenea</div>
+          <div class="eats-name">Café des Délices</div>
+          <div class="eats-detail">4 Rue Lemon — chiar la colțul cu Rue Denoyez, terasă mică, departe de mașini.</div>
+        </div>
+        <div class="eats">
+          <div class="eats-label label">un bar</div>
+          <div class="eats-name">Aux Folies</div>
+          <div class="eats-detail">8 Rue de Belleville — barul cel mai animat al cartierului, punct de plecare clasic spre Denoyez.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spot">
+    <div class="roundel boheme"><span class="arr">18</span><span class="arr-l">ARR.</span></div>
+    <div class="spot-body">
+      <h3 class="display">Marché Vernaison, Puces de Saint-Ouen</h3>
+      <div class="quartier label">Cel mai vechi sector al Târgului de vechituri</div>
+      <p>
+        Un labirint de alei înguste cu tarabe de antichități, haine vintage și obiecte găsite —
+        cea mai veche și mai puțin turistică parte a celebrului târg de vechituri, unde
+        negustorii boemi din secolul trecut încă se recunosc în cei de azi.
+      </p>
+      <div class="tip">Sfat: vino sâmbătă dimineața devreme, cât negustorii încă despachetează marfa.</div>
+      <div class="pair">
+        <div class="eats">
+          <div class="eats-label label">o cafenea</div>
+          <div class="eats-name">La Chope des Puces</div>
+          <div class="eats-detail">122 Rue des Rosiers — cafeneaua de jazz musette unde a cântat Django Reinhardt, chiar în inima târgului.</div>
+        </div>
+        <div class="eats">
+          <div class="eats-label label">un bar</div>
+          <div class="eats-name">Chez Louisette</div>
+          <div class="eats-detail">130 Avenue Michelet, în piața Vernaison — o guinguette cu muzicieni live, atmosferă de altă epocă.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HIDDEN CAFÉS -->
+<section id="cafes">
+  <div class="cafes-head">
+    <div class="kicker label">o pauză, discret</div>
+    <h2 class="display">Cafenea / cafenele ascunse</h2>
+    <p>Nu sunt pe niciun traseu turistic — dar merită ocolul, chiar dacă nu sunt lângă locurile ascunse de mai sus.</p>
+  </div>
+
+  <div class="cafe-grid">
+    <div class="cafe-card">
+      <div class="cafe-top">
+        <div class="cafe-badge"><span class="arr">4</span><span class="arr-l">ARR.</span></div>
+        <h3 class="display">Doong</h3>
+      </div>
+      <div class="addr label">8 Rue Saint-Paul, Le Marais</div>
+      <p>Cafea vietnameză, ascunsă pe o străduță liniștită din Village Saint-Paul. Fără firmă mare, doar o ușă și mirosul de cafea prăjită.</p>
+      <div class="specific"><b>Specific:</b> cafea filtru vietnameză (phin), picurată lent, cu lapte condensat.</div>
+    </div>
+
+    <div class="cafe-card">
+      <div class="cafe-top">
+        <div class="cafe-badge"><span class="arr">10</span><span class="arr-l">ARR.</span></div>
+        <h3 class="display">Résidence Kann</h3>
+      </div>
+      <div class="addr label">28 Rue des Vinaigriers, lângă Canal Saint-Martin</div>
+      <p>O cameră mică, ascunsă în spate, bună pentru citit sau lucrat, deși în față e loc de conversație. Cinnamon roll-ul se termină repede.</p>
+      <div class="specific"><b>Specific:</b> cinnamon roll de casă, copt zilnic, în cantitate limitată.</div>
+    </div>
+
+    <div class="cafe-card">
+      <div class="cafe-top">
+        <div class="cafe-badge"><span class="arr">18</span><span class="arr-l">ARR.</span></div>
+        <h3 class="display">Two Doors Coffee-Shop</h3>
+      </div>
+      <div class="addr label">27 Rue Francœur, Montmartre</div>
+      <p>Pe o străduță liniștită din Montmartre, departe de coada de la Sacré-Cœur. Interior industrial, terasă mică pe trotuar.</p>
+      <div class="specific"><b>Specific:</b> flat white și cold brew, preparate cu boabe de la torefactori locali.</div>
+    </div>
+
+    <div class="cafe-card">
+      <div class="cafe-top">
+        <div class="cafe-badge"><span class="arr">20</span><span class="arr-l">ARR.</span></div>
+        <h3 class="display">Finca.Lab</h3>
+      </div>
+      <div class="addr label">5 Rue du Liban, Belleville</div>
+      <p>Un mic laborator de cafea specialty, condus de oameni pasionați care își prăjesc singuri boabele. Din cele mai puțin cunoscute din oraș.</p>
+      <div class="specific"><b>Specific:</b> cafea specialty de origine unică, prăjită chiar în local, cu notițe de degustare la fiecare lot.</div>
+    </div>
+
+    <div class="cafe-card">
+      <div class="cafe-top">
+        <div class="cafe-badge"><span class="arr">18</span><span class="arr-l">ARR.</span></div>
+        <h3 class="display">Café Renoir</h3>
+      </div>
+      <div class="addr label">12 Rue Cortot, în grădina Muzeului Montmartre</div>
+      <p>Cafenea ascunsă în grădina unde a pictat chiar Renoir, lângă singura vie din Paris. Se plătește intrarea, dar priveliștea merită.</p>
+      <div class="specific"><b>Specific:</b> ceai și cafea servite la masă, în grădină, cu vedere spre via Clos Montmartre.</div>
+    </div>
+
+    <div class="cafe-card">
+      <div class="cafe-top">
+        <div class="cafe-badge"><span class="arr">3</span><span class="arr-l">ARR.</span></div>
+        <h3 class="display">Coffee — Torréfaction artisanale</h3>
+      </div>
+      <div class="addr label">40 Rue Chapon, Haut-Marais</div>
+      <p>O micro-torefacție braziliană, fără laptopuri, fără pretenții — doar cafea foarte bună și proprietari care își cunosc meseria.</p>
+      <div class="specific"><b>Specific:</b> boabe braziliene prăjite artizanal, chiar în magazin, vândute și la pachet.</div>
+    </div>
+  </div>
+</section>
+
+<!-- BRANCUSI -->
+<section id="brancusi">
+  <div class="spot">
+    <div class="roundel navy"><span class="arr">4</span><span class="arr-l">ARR.</span></div>
+    <div class="spot-body">
+      <div class="brancusi-head">
+        <div class="kicker label">un colț românesc, aproape invizibil</div>
+        <h2 class="display">Atelierul lui Brâncuși</h2>
+        <p>
+          Chiar pe piazza din fața Centre Pompidou, lipit de clădirea colorată pe care o știe toată lumea,
+          se ascunde o construcție joasă și discretă, ușor de trecut cu vederea. Aici a fost reconstituit,
+          identic, atelierul în care Constantin Brâncuși a lucrat mai bine de patru decenii — și pe care el
+          însuși l-a lăsat moștenire statului francez, cu o singură condiție: să fie păstrat exact așa cum
+          l-a lăsat.
+        </p>
+      </div>
+
+      <div class="brancusi-facts">
+        <div class="fact">
+          <div class="fact-label label">Atelierul, parte din operă</div>
+          <p>Brâncuși nu vedea atelierul doar ca spațiu de lucru, ci ca pe o compoziție în sine: felul în care așeza sculpturile unele față de altele, lumina care cădea din tavan, distanțele dintre piese — toate erau gândite cu aceeași atenție ca și sculptura însăși.</p>
+        </div>
+        <div class="fact">
+          <div class="fact-label label">O reconstituire după propriile fotografii</div>
+          <p>Pentru că artistul a fotografiat obsesiv propriul atelier de-a lungul anilor, arhitectul Renzo Piano a putut recrea spațiul aproape identic, sculptură cu sculptură, folosind chiar acele fotografii ca ghid.</p>
+        </div>
+        <div class="fact">
+          <div class="fact-label label">Refuzul lui Rodin</div>
+          <p>La scurt timp după ce a ajuns la Paris, Brâncuși a lucrat pentru scurtă vreme în atelierul lui Auguste Rodin, dar a plecat repede, spunând că „nimic nu crește la umbra marilor copaci" — și și-a deschis propriul atelier, pe cont propriu.</p>
+        </div>
+        <div class="fact">
+          <div class="fact-label label">De la spălat vase, la muzeu de stat</div>
+          <p>Primii ani parizieni au fost grei: pentru a se întreține, Brâncuși a spălat vase prin restaurantele orașului, cu mult înainte ca statul francez să-i dedice, decenii mai târziu, o clădire proprie lângă unul dintre cele mai vizitate muzee din lume.</p>
+        </div>
+        <div class="fact">
+          <div class="fact-label label">Propriul fotograf</div>
+          <p>Brâncuși nu fotografia doar atelierul, ci și fiecare sculptură terminată, considerând fotografia o parte din actul de creație. A insistat ca doar imaginile realizate chiar de el să însoțească publicarea lucrărilor sale.</p>
+        </div>
+      </div>
+
+      <div class="tip">Sfat: intrarea e liberă, dar atelierul se vizitează doar după-amiaza (14:00–18:00), închis marțea — și e atât de discret încât mulți turiști din piață nu-l observă deloc.</div>
+    </div>
+  </div>
+</section>
+
+<!-- AMBIANCE -->
+<div class="audio-hover-zone" id="audio-hover-zone">
+  <div class="audio-controls" id="audio-panel">
+    <div class="kicker label">pentru atmosferă</div>
+    <h2 class="display"><a href="https://freemusicarchive.org/music/Kevin_MacLeod/Global_Sampler/Parisian/" target="_blank" rel="noopener" class="spot-title-link">Parisian</a></h2>
+    <p>Acordeon solo, semnat Kevin MacLeod — o piesă liber de folosit (Creative Commons, CC BY 3.0), fără restricțiile obișnuite ale platformelor de streaming.</p>
+    <audio id="ambient-audio" src="https://incompetech.com/music/royalty-free/mp3-royaltyfree/Parisian.mp3" autoplay loop controls></audio>
+    <div class="credit-line">Parisian — Kevin MacLeod (incompetech.com), CC BY 3.0</div>
+  </div>
+</div>
+
+<footer>
+  <div class="display">— fin —</div>
+  <p>Un ghid scurt, scris pentru curioși, nu pentru cozi la muzee.</p>
+</footer>
+
+
+<script>
+  const spots = [
+    { name: "Passage des Panoramas", arr: "2", what: "Cea mai veche galerie acoperită a Parisului", link: "https://www.sortiraparis.com/ro/ce-sa-vizitezi-la-paris/istorie-tratament/articles/351092-passajul-panoramelor-pasajul-acoperit-unde-oamenii-se-plimba-de-peste-doua-secole", lat: 48.8715109, lng: 2.341904 },
+    { name: "Rue Saint-Blaise", arr: "20", what: "Stradă medievală de sat, aproape uitată", lat: 48.8581975, lng: 2.4068453 },
+    { name: "Butte-aux-Cailles", arr: "13", what: "Cartier-sat cu case joase și alei pietruite", lat: 48.8271912, lng: 2.3490795 },
+    { name: "Arènes de Lutèce", arr: "5", what: "Amfiteatru roman ascuns între blocuri", lat: 48.845116, lng: 2.3528366 },
+    { name: "Parc des Buttes-Chaumont", arr: "19", what: "Stânci, cascadă și templu suspendat", lat: 48.8809496, lng: 2.3827609 },
+    { name: "Rue des Barres", arr: "4", what: "Străduță medievală lângă Sena", lat: 48.8553427, lng: 2.355261 }
+  ];
+
+  const eats = [
+    { name: "Racines", detail: "8 Passage des Panoramas — bucătărie italiană, chiar în interiorul galeriei.", link: "https://guide.michelin.com/tr/en/ile-de-france/paris/restaurant/racines", lat: 48.8716, lng: 2.3419 },
+    { name: "Ploc", detail: "17 Rue Saint-Blaise — bistro cu vin natural, pe aceeași stradă pietonală.", lat: 48.8580, lng: 2.4070 },
+    { name: "Chez Gladines", detail: "30 Rue des Cinq Diamants — bucătărie bască, porții generoase, atmosferă de cartier.", lat: 48.8271, lng: 2.3505 },
+    { name: "Le Vieux Bistrot", detail: "54 Rue Mouffetard — bistro clasic, pe celebra stradă-piață din apropiere.", lat: 48.8443, lng: 2.3499 },
+    { name: "Rosa Bonheur Buttes Chaumont", detail: "2 Av. de la Cascade — chiar în interiorul parcului, terase, pizza și tapas.", lat: 48.8790, lng: 2.3823 },
+    { name: "L'Ébouillanté", detail: "6 Rue des Barres — cafenea-restaurant chiar pe stradă, faimoasă pentru „bricks”.", lat: 48.8553, lng: 2.3555 }
+  ];
+
+  const cafes = [
+    { name: "Doong", arr: "4", what: "Cafea filtru vietnameză (phin), cu lapte condensat", lat: 48.8530907, lng: 2.3613699 },
+    { name: "Résidence Kann", arr: "10", what: "Cinnamon roll de casă, copt zilnic", lat: 48.8732839, lng: 2.3628555 },
+    { name: "Two Doors Coffee-Shop", arr: "18", what: "Flat white și cold brew, boabe locale", lat: 48.8908722, lng: 2.3402927 },
+    { name: "Finca.Lab", arr: "20", what: "Cafea specialty, prăjită chiar în local", lat: 48.8685871, lng: 2.3855437 },
+    { name: "Café Renoir", arr: "18", what: "Servire în grădină, lângă singura vie din Paris", lat: 48.8877243, lng: 2.3406304 },
+    { name: "Coffee — Torréfaction artisanale", arr: "3", what: "Boabe braziliene, prăjite artizanal în magazin", lat: 48.8639154, lng: 2.3546367 }
+  ];
+
+  const boheme = [
+    { name: "Le Bateau-Lavoir", arr: "18", what: "Atelierul unde s-a născut cubismul lui Picasso", lat: 48.8862, lng: 2.3406 },
+    { name: "La Ruche", arr: "15", what: "Cité de artiști din rămășițele Expoziției din 1900", lat: 48.8329, lng: 2.3009 },
+    { name: "Les Frigos", arr: "13", what: "Fost depozit frigorific, azi ateliere de artiști", lat: 48.8321, lng: 2.3746 },
+    { name: "Cité Fleurie", arr: "14", what: "Curte de ateliere acoperite de iederă", lat: 48.8340, lng: 2.3496 },
+    { name: "Rue Denoyez", arr: "20", what: "Alee de street art repictată constant", lat: 48.8722, lng: 2.3822 },
+    { name: "Marché Vernaison, Puces de Saint-Ouen", arr: "18", what: "Cel mai vechi sector al târgului de vechituri", lat: 48.9016, lng: 2.3439 }
+  ];
+
+  const brancusi = {
+    name: "Atelierul lui Brâncuși",
+    arr: "4",
+    what: "Deschis publicului din 1997, reconstituit după fotografiile făcute chiar de Brâncuși propriului atelier",
+    lat: 48.8605, lng: 2.3522
+  };
+
+  const map = L.map('paris-map', { scrollWheelZoom:false }).setView([48.868, 2.355], 12);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors',
+    maxZoom: 19
+  }).addTo(map);
+
+  const goldIcon = L.divIcon({
+    className: '',
+    html: '<div class="spot-dot" style="width:16px;height:16px;border-radius:50%;background:#FFFFFF;border:2px solid #2B2320;box-shadow:0 0 0 2px #F6E4C4;"></div>',
+    iconSize: [16,16],
+    iconAnchor: [8,8]
+  });
+
+  const roseIcon = L.divIcon({
+    className: '',
+    html: '<div style="width:14px;height:14px;border-radius:50%;background:#111111;border:2px solid #F6E4C4;box-shadow:0 0 0 2px #000000;"></div>',
+    iconSize: [14,14],
+    iconAnchor: [7,7]
+  });
+
+  spots.forEach(s => {
+    const linkHtml = s.link ? `<a href="${s.link}" target="_blank" rel="noopener" class="map-tip-link">Citește mai mult →</a>` : '';
+    L.marker([s.lat, s.lng], { icon: goldIcon }).addTo(map)
+      .bindPopup(`<b>${s.name}</b>Arondismentul ${s.arr} — Loc ascuns · ${s.what}${linkHtml}`)
+      .bindTooltip(`<b>${s.name}</b><br>Arondismentul ${s.arr} · Loc ascuns<br>${s.what}`, {
+        direction: 'top', offset: [0, -10], opacity: 0.96, className: 'map-tip'
+      });
+  });
+
+  cafes.forEach(c => {
+    L.marker([c.lat, c.lng], { icon: roseIcon }).addTo(map)
+      .bindPopup(`<b>${c.name}</b>Arondismentul ${c.arr} — Cafenea ascunsă · ${c.what}`)
+      .bindTooltip(`<b>${c.name}</b><br>Arondismentul ${c.arr} · Cafenea ascunsă<br>${c.what}`, {
+        direction: 'top', offset: [0, -9], opacity: 0.96, className: 'map-tip'
+      });
+  });
+
+  const bohemeIcon = L.divIcon({
+    className: '',
+    html: '<div style="width:14px;height:14px;border-radius:50%;background:#E67E22;border:2px solid #F6E4C4;box-shadow:0 0 0 2px #A85A16;"></div>',
+    iconSize: [14,14],
+    iconAnchor: [7,7]
+  });
+
+  boheme.forEach(b => {
+    L.marker([b.lat, b.lng], { icon: bohemeIcon }).addTo(map)
+      .bindPopup(`<b>${b.name}</b>Arondismentul ${b.arr} — Loc boem · ${b.what}`)
+      .bindTooltip(`<b>${b.name}</b><br>Arondismentul ${b.arr} · Loc boem<br>${b.what}`, {
+        direction: 'top', offset: [0, -9], opacity: 0.96, className: 'map-tip'
+      });
+  });
+
+  const skyIcon = L.divIcon({
+    className: '',
+    html: '<div style="width:16px;height:16px;border-radius:50%;background:#7EC8E3;border:2px solid #F6E4C4;box-shadow:0 0 0 2px #3E9BC2;"></div>',
+    iconSize: [16,16],
+    iconAnchor: [8,8]
+  });
+
+  L.marker([brancusi.lat, brancusi.lng], { icon: skyIcon }).addTo(map)
+    .bindPopup(`<b>${brancusi.name}</b>Arondismentul ${brancusi.arr} — Atelier Brâncuși · ${brancusi.what}`)
+    .bindTooltip(`<b>${brancusi.name}</b><br>Arondismentul ${brancusi.arr} · Atelier Brâncuși<br>${brancusi.what}`, {
+      direction: 'top', offset: [0, -10], opacity: 0.96, className: 'map-tip'
+    });
+
+  const eatsIcon = L.divIcon({
+    className: '',
+    html: '<div style="width:10px;height:10px;border-radius:50%;background:#2E8B57;border:1.5px solid #F6E4C4;box-shadow:0 0 0 1.5px #1D5C3A;"></div>',
+    iconSize: [10,10],
+    iconAnchor: [5,5]
+  });
+
+  eats.forEach(e => {
+    const eLinkHtml = e.link ? `<a href="${e.link}" target="_blank" rel="noopener" class="map-tip-link">Vezi restaurantul →</a>` : '';
+    L.marker([e.lat, e.lng], { icon: eatsIcon }).addTo(map)
+      .bindPopup(`<b>Unde mâncăm aproape de loc ascuns al Parisului</b>${e.name}${e.detail}${eLinkHtml}`)
+      .bindTooltip(`<b>Unde mâncăm aproape de loc ascuns al Parisului</b><br>${e.name}<br>${e.detail}`, {
+        direction: 'top', offset: [0, -7], opacity: 0.96, className: 'map-tip'
+      });
+  });
+</script>
+
+<script>
+  // Pornește melodia de fundal automat; browserele care blochează
+  // autoplay-ul cu sunet o vor porni la prima atingere/click pe pagină.
+  const bgAudio = document.getElementById('ambient-audio');
+  const audioPanel = document.getElementById('audio-panel');
+  const hoverZone = document.getElementById('audio-hover-zone');
+
+  if (bgAudio) {
+    let isHovering = false;
+
+    bgAudio.addEventListener('play', () => {
+      setTimeout(() => {
+        if (!isHovering) { audioPanel.classList.add('hidden-panel'); }
+      }, 700);
+    });
+
+    hoverZone.addEventListener('mouseenter', () => {
+      isHovering = true;
+      audioPanel.classList.remove('hidden-panel');
+    });
+    hoverZone.addEventListener('mouseleave', () => {
+      isHovering = false;
+      if (!bgAudio.paused) { audioPanel.classList.add('hidden-panel'); }
+    });
+  }
+</script>
+
+</body>
+</html>
